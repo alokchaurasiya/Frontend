@@ -9,6 +9,7 @@ import AddDataset from './components/AddDataset';
 import {Toaster} from 'react-hot-toast';
 import Login from './components/Login';
 
+
 function App() {
     return (
       <div>
@@ -18,7 +19,7 @@ function App() {
         <Header />
           <Routes>
               <Route element={<Home></Home>} path="/" /> 
-              <Route element={<Home></Home>} path="home" /> 
+              <Route element={<Home></Home>} path="Home" /> 
               <Route element={<Login></Login>} path="Sign" />
               <Route element={<SigUp></SigUp>} path="SigUp" />
               <Route element={<AddDataset></AddDataset>} path="AddDataset" />

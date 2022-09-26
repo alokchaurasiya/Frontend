@@ -39,21 +39,47 @@ const Header = () => {
           </li>
           </ul>
 
-        {/* Icons */}
+         {/* AddData */}
+        <ul className="navbar-nav me-left mb-2 mb-lg-0">
+        <li className="nav-item">
+              <NavLink
+                className="nav-link"
+                to="/AddDataset"
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  color: "#E4A11B",
+                  marginLeft: "5px",
+                }}>
+                AddData
+              </NavLink>
+              </li>
+          </ul>
+
+       
         <ul className="navbar-nav d-flex flex-row me-1">
 
+         {/* LOGIN */}
         <li className="nav-item" >
             <NavLink className="nav-link" to="/Sign">
                <button class = "btn btn-primary">LOGIN</button> 
             </NavLink>
           </li>
-          {/* <li className="nav-item">
-            <NavLink className="nav-link" to="/SigUp" >
-              SigUp
+            
+            {/* SigUp */}
+           <li className="nav-item">
+            <NavLink className="nav-link" to="/SigUp"
+                style={{
+                  fontSize: "20px",
+                  // fontWeight: "bold",
+                  // color: "#E4A11B",
+                  marginLeft: "5px",
+                }} >
+              SIGUP
             </NavLink>
-          </li> */}
+          </li>  
 
-
+            {/* icon */}
           <li className="nav-item me-3 me-lg-0">
             <a className="nav-link" href="#">
               <i className="fas fa-shopping-cart" />

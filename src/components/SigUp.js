@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react'
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2"
 
 const SigUp = () => {
@@ -23,6 +23,7 @@ const SigUp = () => {
         title : 'Nice',
         text : 'User SigUp!!'
       })
+
     }else{
       console.log('some error occured');
     }
@@ -32,92 +33,61 @@ const SigUp = () => {
     <div className='container mt-5  d-flex justify-content-center align-item-center'>
       <div className="col-md-5 col-lg-5">
       <div className='card px-4'>
-      <ul>
-      <li class="nav-item" role="presentation">
-      <NavLink
-      class="nav-link"
-      id="tab-register"
-      data-mdb-toggle="pill"
-      to="/SigUp"
-      role="tab"
-      aria-controls="pills-register"
-      aria-selected="false"
-      >Register
-      </NavLink>
-      </li>
-      </ul>
-
-
         <Formik
           initialValues={{name : '', email : '', password : ''}}
           onSubmit={userSubmit}
         >
           { ({values, handleSubmit, handleChange}) => (
             <form onSubmit={handleSubmit}>
-<div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
 
-    <form>
-      <div class="text-center mb-2">
-        <p>Sign up with:</p>
-        <button type="button" class="btn btn-primary btn-floating mx-1">
-          <i class="fab fa-facebook-f"></i>
-        </button>
+            <h3 className='text-center'>Register</h3>
+            
+            <label htmlFor='name'>Name</label>
+            <input id="name" value={values.name} onChange={handleChange} className='form-control mb-3' placeholder='Full Name' required />
+            
+            <label htmlFor='email'>Email</label>
+            <input id="email" value={values.email} onChange={handleChange} className='form-control mb-3' placeholder='Enter email'  required/>
+           
+            <label htmlFor='password'>Password</label>
+            <input id="password" value={values.password} onChange={handleChange} type="password" className='form-control mb-3' placeholder=' Create password' required />
+            
+            <label htmlFor='confirm password'>Confirm Password</label>
+            <input id="confirm Password" value={values.age} onChange={handleChange} className='form-control mb-3' placeholder=' Confirm password' required/>
 
-        <button type="button" class="btn btn-primary btn-floating mx-1">
-          <i class="fab fa-google"></i>
-        </button>
+            <div class="form-check mb-3" >
+            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required />
+            <label class="form-check-label" for="invalidCheck">Agree to terms and conditions</label>
+            <div class="invalid-feedback">You must agree before submitting.</div>
+            </div>
+            
+            <div className="text-center">
+            <button type='submit' className="btn btn-primary btn-block mb-4">Submit</button>
+             </div>
 
-        <button type="button" class="btn btn-primary btn-floating mx-1">
-          <i class="fab fa-twitter"></i>
-        </button>
+             
 
-        <button type="button" class="btn btn-primary btn-floating mx-1">
-          <i class="fab fa-github"></i>
-        </button>
-      </div>
     
-      <p class="text-center">or:</p>
+    <div class="text-center mb-3">
+    <p>or sign up with:</p>
+    <button type="button" class="btn btn-primary btn-floating mx-1">
+      <i class ="fab fa-facebook-f"></i>
+    </button>
 
-      <div class="form-group mb-2">
-        <label class="form-label" for="registerName">Name</label>
-        <input type="text" id="registerName" class="form-control" />
-      </div>
+    <button type="button" class="btn btn-primary btn-floating mx-1">
+      <i class="fab fa-google"></i>
+    </button>
 
-      <div class="form-group mb-2">
-        <label class="form-label" for="registerEmail">Email</label>
-        <input type="email" id="registerEmail" class="form-control" />
-      </div>
+    <button type="button" class="btn btn-primary btn-floating mx-1">
+      <i class="fab fa-twitter"></i>
+    </button>
 
-      <div class="form-group mb-2">
-        <label class="form-label" for="registerPassword">Password</label>
-        <input type="password" id="registerPassword" class="form-control" />
-      </div>
-
-      <div class="form-group mb-4">
-        <label class="form-label" for="registerRepeatPassword">Repeat password</label>
-        <input type="password" id="registerRepeatPassword" class="form-control" />
-      </div>
-
-      <div class="form-check d-flex justify-content-center mb-4">
-        <input
-          class="form-check-input me-2"
-          type="checkbox"
-          value=""
-          id="registerCheck"
-          checked
-          aria-describedby="registerCheckHelpText"
-        />
-        <label class="form-check-label" for="registerCheck">
-          I have read and agree to the terms
-        </label>
-      </div>
-
-      <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
-    </form>
+    <button type="button" class="btn btn-primary btn-floating mx-1">
+      <i class="fab fa-github"></i>
+    </button>
   </div>
  </form>
- ) }
- </Formik>
+  ) }
+        </Formik>
         
       </div>
     </div>
