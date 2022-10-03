@@ -1,13 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {NavLink} from 'react-router-dom';
 
 const Header = () => {
+
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(sessionStorage.getItem("user"))
+  );
+
+  const userLogout=()=>{
+    if(currentUser){
+      sessionStorage.removeItem("user");
+      setCurrentUser(null);
+      window.location.reload();
+    }
+  }
+
   return (
-    <>
+    <div className='position-sticky top-0' style={{zIndex:1}}>
   {/* Navbar */}
   <nav
-    className="navbar navbar-expand-lg navbar-dark "
-    style={{ backgroundColor: "#332D2D" }}
+    className="navbar navbar-expand-lg navbar-dark  "
+    style={{ backgroundColor: "#332D2D"}}
   >
     {/* Container wrapper */}
     <div className="container-fluid">
@@ -33,8 +46,8 @@ const Header = () => {
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           {/* Link */}
           <li className="nav-item">
-            <NavLink className="nav-link" to="/nav">
-                Home
+            <NavLink className="nav-link" to="/browsing">
+                Datasets
             </NavLink>
           </li>
           </ul>
@@ -46,10 +59,9 @@ const Header = () => {
                 className="nav-link"
                 to="/AddDataset"
                 style={{
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  color: "#E4A11B",
-                  marginLeft: "5px",
+                  fontSize: "19px",
+                  color: "white",
+                  marginRight: "920px",
                 }}>
                 AddData
               </NavLink>
@@ -58,55 +70,32 @@ const Header = () => {
 
        
         <ul className="navbar-nav d-flex flex-row me-1">
-
+  
          {/* LOGIN */}
-        <li className="nav-item" >
+         {!currentUser?
+         <li className="nav-item" >
             <NavLink className="nav-link" to="/Sign">
                <button class = "btn btn-primary">LOGIN</button> 
             </NavLink>
+          </li>:
+          <li>
+            <button className='btn btn-danger' onClick={()=>userLogout()}>
+              Logout
+            </button>
           </li>
+          }
             
             {/* SigUp */}
            <li className="nav-item">
-            <NavLink className="nav-link" to="/SigUp"
-                style={{
-                  fontSize: "20px",
-                  // fontWeight: "bold",
-                  // color: "#E4A11B",
-                  marginLeft: "5px",
-                }} >
-              SIGUP
+            <NavLink className="nav-link" to="/SigUp">
+              <button class='btn btn-primary '>REGISTER</button>
             </NavLink>
           </li>  
-
-            {/* icon */}
-          <li className="nav-item me-3 me-lg-0">
-            <a className="nav-link" href="#">
-              <i className="fas fa-shopping-cart" />
-            </a>
-          </li>
-          
-          <li className="nav-item me-3 me-lg-0">
-            <a className="nav-link" href="#">
-              <i className="fab fa-twitter" />
-            </a>
-          </li>
         </ul>
-        {/* Search */}
-        <form className="w-auto">
-        <div class="input-group">
-        <input type="search" id=""  class="form-control"  placeholder='Search'/>
-        <button type="button" class="btn btn-primary">
-        <i class="fas fa-search"></i>
-        </button>
-       </div>
-    </form>
       </div>
     </div>
-    {/* Container wrapper */}
   </nav>
-  {/* Navbar */}
-</>
+</div>
 
   )
 }

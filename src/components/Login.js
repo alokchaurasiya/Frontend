@@ -6,9 +6,9 @@ import Swal from 'sweetalert2'
 
 const Login = () => {
    
+  const navigate=useNavigate();
   const SignSubmit = async(formdata ,{resetForm}) =>{
     console.log(formdata)
-    const navigate=useNavigate();
 
 
     const response = await fetch('http://localhost:5000/user/authenticate',{
@@ -24,11 +24,13 @@ const Login = () => {
         icon : 'success',
         title : 'Success',
         text : 'Loggedin Succeddfully'
+        
       })
       response.json().then((data) => {
         console.log(data);
         navigate("/AddDataset");
         sessionStorage.setItem("user", JSON.stringify(data));
+        
       });
       
      }else if(response.status === 401){
@@ -37,14 +39,13 @@ const Login = () => {
           title : 'Failed',
           text : 'Loggedin Failed'
         })
-
-
      }else{
       console.log('unknown error ');
      }
     
   }
   return (
+    
     <div className='container mt-5  d-flex justify-content-center align-item-center'>
       <div className="col-md-5 col-lg-4">
       <div className='card px-4'>
@@ -54,9 +55,8 @@ const Login = () => {
           password:"",
         }} onSubmit={SignSubmit}>
           {({values,handleChange,handleSubmit})=>(
-     <form onSubmit={handleSubmit}>
-
-      
+            <form onSubmit={handleSubmit}>
+     
     <div className=" mb-2">
       <label className="form-label" htmlFor="form2Example1">
         {/* Email address: */}
@@ -83,8 +83,9 @@ const Login = () => {
     <div class="text-center">
     <p>Not a member? <a href="SigUp">Register</a></p>
     </div>
-    
   </form>
+
+
 
 )}
 </Formik>
@@ -92,9 +93,8 @@ const Login = () => {
   </div>
   </div>
   
-
+  
   )
-
   }
 
 export default Login;

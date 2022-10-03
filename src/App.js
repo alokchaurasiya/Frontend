@@ -8,6 +8,7 @@ import Notfound from './components/Notfound';
 import AddDataset from './components/AddDataset';
 import {Toaster} from 'react-hot-toast';
 import Login from './components/Login';
+import Browsing from './components/Browsing';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
               <Route element={<Login></Login>} path="Sign" />
               <Route element={<SigUp></SigUp>} path="SigUp" />
               <Route element={<AddDataset></AddDataset>} path="AddDataset" />
+              <Route element={<Browsing></Browsing>} path="browsing" />
               <Route element={<Notfound />} path="*" />
           </Routes>
          </BrowserRouter>

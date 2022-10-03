@@ -1,13 +1,23 @@
 import { Formik } from 'formik';
-import React from 'react'
+import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 
+
 const AddDataset = () => {
+
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(sessionStorage.getItem("user"))
+  );
   
+  const url="http://localhost:5000"
+  const [selFile, setSelFile] = useState("");
+  const [selThumbnail, setSelThumbnail] = useState("");
 
     const DatasetSubmit = async(formdata ,{resetForm}) =>{
     console.log(formdata)
-
+      formdata.thumbnail=selThumbnail;
+      formdata.file=selFile;
     const response = await fetch('http://localhost:5000/data/add',{
       method:'POST',
       body : JSON.stringify(formdata),
@@ -20,21 +30,63 @@ const AddDataset = () => {
       Swal.fire({
         icon : 'success',
         title : 'Success',
-        text : 'Loggedin Succeddfully'
+        text : 'Data Saved'
       })
+      setCurrentUser(true);
      }else if(response.status === 401){
         Swal.fire({
           icon : 'error',
           title : 'Failed',
-          text : 'Loggedin Failed'
+          text : 'Data Not Saved'
         })
      }else{
       console.log('unknown error ');
      }
-    
+    resetForm();
   }
-  return (
-    <div class="bg-transparent">
+
+  const uploadthumbnail = (e) => {
+    const file = e.target.files[0];
+    setSelThumbnail(file.name);
+    const fd = new FormData();
+    fd.append("myfile", file);
+    fetch( url+ "/util/uploadfile", {
+      method: "POST",
+      body: fd,
+    }).then((res) => {
+      if (res.status === 200) {
+        toast.success("Image Uploaded!!", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+      }
+    });
+  };
+  const uploadFile = (e) => {
+    const file = e.target.files[0];
+    setSelFile(file.name);
+    const fd = new FormData();
+    fd.append("myfile", file);
+    fetch( url+ "/util/uploadfile", {
+      method: "POST",
+      body: fd,
+    }).then((res) => {
+      if (res.status === 200) {
+        toast.success("Image Uploaded!!", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
+      }
+    });
+  };
+    if(currentUser){
+      return <div class="bg-transparent">
 <div className='container mt-4  d-flex justify-content-center align-item-center'>
       <div className="col-md-5 col-lg-6">
       <div className='card px-4'>
@@ -42,14 +94,10 @@ const AddDataset = () => {
 
         <Formik initialValues={{
         title:"",
-        discription:"",
-        Size:"",
-        type:"",
-        details:"",
-        thumbnail:"",
-        filedata:"",
-        upvotes:"",
-        createdAt:new Date,
+        description:"",
+        year :"",
+        category:"",
+        createdAt:new Date(),
 
       }} onSubmit={DatasetSubmit}>
         {({values,handleChange,handleSubmit})=>(
@@ -57,55 +105,35 @@ const AddDataset = () => {
     <div className="mb-2">
     {/* title address: */}
     <div >
-    <label className="form-label" >TITLE</label>
-    <input type="title" id="" name='title' value={values.title} onChange={handleChange} className="form-control mb-3" required />
+    <label className="form-label" htmlFor='title' >TITLE</label>
+    <input type="text" id="title" name='title' value={values.title} onChange={handleChange} className="form-control mb-3" required />
     </div>
     
     {/* description: */}
     
-    <label className="form-label" >DISCRIPTION</label>
-    <input type="description" id="" name='description' value={values.description} onChange={handleChange} className="form-control mb-3"  required />
+    <label className="form-label" htmlFor='description'>DESCRIPTION</label>
+    <input type="text" id="description" name='description' value={values.description} onChange={handleChange} className="form-control mb-3"  required />
     
-
-    {/* Size: */}
+    {/* year: */}
     
-    <label className="form-label" >SIZE</label>
-    <input type="Size" id="" name="Size" value={values.Size} onChange={handleChange} className="form-control mb-3"  required />
+    <label className="form-label" htmlFor='year'>YEAR</label>
+    <input type="number" id="year" name='year' value={values.year} onChange={handleChange} className="form-control mb-3"  required />
+
+    {/* category: */}
     
-
-
-    {/* type: */}
-    <label className="form-label" >TYPE</label>
-    <input type="type" id="" name="type" value={values.type} onChange={handleChange} className="form-control mb-3"   required />
-    
-
-    {/* details: */}
-    <label className="form-label" >DETAILE </label>
-    <input type="details" id="" name="details" value={values.details} onChange={handleChange} className="form-control mb-3"  required />
+    <label className="form-label" htmlFor='category'>CATEGORY</label>
+    <input type="text" id="category" name='category' value={values.category} onChange={handleChange} className="form-control mb-3"  required />
     
 
     {/* thumbnail: */}
-    <label className="form-label" >THUMBNAIL</label>
-    <input type="thumbnail" id="" name="thumbnail" value={values.thumbnail} onChange={handleChange} className="form-control mb-3" required />
-   
-    {/* upvotes: */}
-    <label className="form-label" >UP VOTES</label>
-    <input type="upvotes" id="" name="upvotes" value={values.upvotes} onChange={handleChange} className="form-control mb-3"  required />
+    <label className="form-label" htmlFor='thumbnail' >THUMBNAIL</label>
+    <input type="file" id="thumbnail" name="thumbnail" onChange={uploadthumbnail} className="form-control mb-3" required accept='.JPG ,.PNG , .SVG ,.JPEG'/>
 
     {/* filedata: */}
     <label className="form-label">FILE DATA </label>
-    <input type="file" id="" name="filedata" value={values.filedata} onChange={handleChange} className="form-control mb-3"  required />
+    <input type="file" id="" name="filedata"  onChange={uploadFile} className="form-control mb-3"  required accept='.csv ,.Zip'/>
+  
    
-    
-    {/* Image: */}
-    <label className="form-label">Upload Image</label>
-    <input type="file" id="" name="Upload Image" value={values.UploadImage} onChange={handleChange} className="form-control mb-3"  required />
-   
-
-    {/* createdAt: */}
-    <label className="form-label" >DATE</label>
-    <input type="Date" id="" name="createdAt" value={values.createdAt} onChange={handleChange} className="form-control mb-3"  required />
-
     <button type="submit" className="btn btn-primary btn-block mt-4">
       SUBMIT
     </button>
@@ -121,7 +149,7 @@ const AddDataset = () => {
         </div>
         </div>
 
-  )
+        }
 }
 
 export default AddDataset;
